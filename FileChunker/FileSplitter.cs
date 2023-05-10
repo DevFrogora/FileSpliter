@@ -14,9 +14,7 @@
                 throw ex;
             }
         }
-        string baseFileName;
-        string extension;
-        string outputFolder;
+
         bool SplitFile(string sourceFilePath, FileSplitterParameter fSP)
         {
             bool Split = false;
@@ -26,15 +24,15 @@
 
                 fSP.sizeofEachFile = fSP.numberOfChunkFile == 0 ?   fSP.sizeofEachFile : (int)Math.Ceiling((double)sourceStream.Length / fSP.numberOfChunkFile);
                 string absoluteFilePath = sourceStream.Name;
-                baseFileName = string.IsNullOrEmpty(fSP.baseFileName) ? Path.GetFileNameWithoutExtension(absoluteFilePath) : fSP.baseFileName;
-                extension = string.IsNullOrEmpty(fSP.extension) ? Path.GetExtension(absoluteFilePath) : fSP.extension;
-                outputFolder = string.IsNullOrEmpty(fSP.outputFolder) ? Path.GetDirectoryName(absoluteFilePath) : fSP.outputFolder;
+                string baseFileName = string.IsNullOrEmpty(fSP.baseFileName) ? Path.GetFileNameWithoutExtension(absoluteFilePath) : fSP.baseFileName;
+                string extension = string.IsNullOrEmpty(fSP.extension) ? Path.GetExtension(absoluteFilePath) : fSP.extension;
+                string outputFolder = string.IsNullOrEmpty(fSP.outputFolder) ? Path.GetDirectoryName(absoluteFilePath) : fSP.outputFolder;
 
                 int i = 0;
                 int numberOfSizeChunked = 0;
                 while (sourceStream.Length != numberOfSizeChunked)
                 {
-                    string fileName = fileNamePattern(i);
+                    string fileName = fileNamePattern(i, outputFolder, baseFileName, extension);
                     FileStream outputFile = new FileStream(fileName, FileMode.Create, FileAccess.Write);
 
                     int bytesRead = 0;
@@ -58,7 +56,7 @@
             return Split;
         }
 
-        public virtual string fileNamePattern(int count)
+        public virtual string fileNamePattern(int count, string outputFolder, string baseFileName, string extension)
         {
             return outputFolder + "\\" + baseFileName + "." +
                         count.ToString().PadLeft(5, Convert.ToChar("0")) + extension + ".tmp";

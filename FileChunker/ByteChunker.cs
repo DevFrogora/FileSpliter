@@ -6,7 +6,7 @@ namespace FileChunker
 {
     public class ByteChunker : IByteChunker
     {
-        public IEnumerable<byte[]> ChunkeBytes(byte[] inputBytes, int sizeOfEachChunk)
+        public IEnumerable<byte[]> GetChunkedBytes(byte[] inputBytes, int sizeOfEachChunk)
         {
             return inputBytes.Chunk(sizeOfEachChunk);
         }

@@ -9,6 +9,6 @@ namespace FileChunker
 {
     public interface IByteChunker
     {
-        IEnumerable<byte[]> ChunkeBytes(byte[] inputBytes,int sizeOfEachChunk); 
+        IEnumerable<byte[]> GetChunkedBytes(byte[] inputBytes,int sizeOfEachChunk); 
     }
 }
